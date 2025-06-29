@@ -1,12 +1,12 @@
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 
 st.set_page_config(page_title="Ball Progression", layout="wide")
 
-st.markdown("<h1 style='text-align: center;'>Ball Progression Per 90: Pass + Carry</h1>", unsafe_allow_html=True)
-
+st.markdown("<h1 style='text-align: center;'>Ball Progression: Pass + Carry</h1>", unsafe_allow_html=True)
 
 # Load data
 @st.cache_data
@@ -20,24 +20,40 @@ graph_placeholder = st.empty()
 
 # Create initial blank graph
 def create_blank_graph():
-    fig, ax = plt.subplots(figsize=(10, 6))
-    fig.patch.set_facecolor("#0e1a26")
-    ax.set_facecolor("#0e1a26")
+    fig = go.Figure()
     
-    for spine in ax.spines.values():
-        spine.set_color("white")
-    ax.tick_params(colors="white")
-    
-    ax.set_xlabel("Progression via Pass (Season Total)", color="white")
-    ax.set_ylabel("Progression via Carry (Season Total)", color="white")
-    ax.set_title("Ball Progression Per 90 - Pass + Carry", color="white")
-    ax.grid(True, linestyle="--", alpha=0.3)
+    fig.update_layout(
+        plot_bgcolor='#0e1a26',
+        paper_bgcolor='#0e1a26',
+        font_color='white',
+        title={
+            'text': 'Ball Progression Per 90 - Pass + Carry',
+            'x': 0.5,
+            'xanchor': 'center',
+            'font': {'color': 'white', 'size': 16}
+        },
+        xaxis=dict(
+            title='Progression via Pass (Per 90)',
+            gridcolor='rgba(255,255,255,0.3)',
+            gridwidth=1,
+            color='white'
+        ),
+        yaxis=dict(
+            title='Progression via Carry (Per 90)',
+            gridcolor='rgba(255,255,255,0.3)',
+            gridwidth=1,
+            color='white'
+        ),
+        showlegend=False,
+        width=800,
+        height=500
+    )
     
     return fig
 
 # Display blank graph initially
 with graph_placeholder.container():
-    st.pyplot(create_blank_graph())
+    st.plotly_chart(create_blank_graph(), use_container_width=True)
 
 # Add some spacing
 st.write("")
@@ -90,43 +106,72 @@ if generate_button:
     x = filt["progressive_passes_per90"]
     y = filt["progressive_carries_per90"]
 
-    # Creating & Designing the Scatter Plot
+    # Creating & Designing the Interactive Scatter Plot with Plotly
     colors = [
-        "#ff2d96",
-        "#faff00",
-        "#00ffff",
-        "#ff7300",
-        "#00ff66",
-        "#4ac8ff",
-        "#c77dff",
-        "#ff4d4d",
-        "#1abc9c",
-        "#f1c40f",
+        "#ff2d96", "#faff00", "#00ffff", "#ff7300", "#00ff66",
+        "#4ac8ff", "#c77dff", "#ff4d4d", "#1abc9c", "#f1c40f"
     ]
-
-    fig, ax = plt.subplots(figsize=(10, 6))
-    fig.patch.set_facecolor("#0e1a26")
-    ax.set_facecolor("#0e1a26")
-
-    for i, (x_val, y_val) in enumerate(zip(x, y)):
-        ax.scatter(x_val, y_val, color=colors[i % len(colors)])
-
-    for spine in ax.spines.values():
-        spine.set_color("white")
-    ax.tick_params(colors="white")
     
-    # To add Player names to the Label Points
+    # Create the plotly figure
+    fig = go.Figure()
+    
+    # Add scatter points with hover information
     for i, idx in enumerate(filt.index):
         player_name = filt.loc[idx, "name"]
-        ax.annotate(
-            player_name, (x.iloc[i], y.iloc[i]), fontsize=8, color="silver"
-        )
+        team = filt.loc[idx, "team"] if "team" in filt.columns else "Unknown"
+        position = filt.loc[idx, "position"]
+        minutes = filt.loc[idx, "minutes"]
+        
+        fig.add_trace(go.Scatter(
+            x=[x.iloc[i]],
+            y=[y.iloc[i]],
+            mode='markers',
+            marker=dict(
+                color=colors[i % len(colors)],
+                size=12,
+                line=dict(width=2, color='white')
+            ),
+            name=player_name,
+            hovertemplate=f"""
+            <b>{player_name}</b><br>
+            Team: {team}<br>
+            Position: {position}<br>
+            Minutes: {minutes}<br>
+            Progressive Passes (Per 90): {x.iloc[i]}<br>
+            Progressive Carries (Per 90): {y.iloc[i]}<br>
+            <extra></extra>
+            """,
+            showlegend=False
+        ))
+    
+    # Update layout with dark theme
+    fig.update_layout(
+        plot_bgcolor='#0e1a26',
+        paper_bgcolor='#0e1a26',
+        font_color='white',
+        title={
+            'text': 'Ball Progression Per 90 - Pass + Carry',
+            'x': 0.5,
+            'xanchor': 'center',
+            'font': {'color': 'white', 'size': 18}
+        },
+        xaxis=dict(
+            title='Progression via Pass (Per 90)',
+            gridcolor='rgba(255,255,255,0.3)',
+            gridwidth=1,
+            color='white'
+        ),
+        yaxis=dict(
+            title='Progression via Carry (Per 90)',
+            gridcolor='rgba(255,255,255,0.3)',
+            gridwidth=1,
+            color='white'
+        ),
+        hovermode='closest',
+        width=800,
+        height=500
+    )
 
-    ax.set_xlabel("Progression via Pass (Per 90)", color="white")
-    ax.set_ylabel("Progression via Carry (Per 90)", color="white")
-    ax.set_title("Ball Progression Per 90 - Pass + Carry", color="white")
-    ax.grid(True, linestyle="--", alpha=0.3)
-
-    # Update the graph placeholder with the new graph
+    # Update the graph placeholder with the new interactive graph
     with graph_placeholder.container():
-        st.pyplot(fig)
+        st.plotly_chart(fig, use_container_width=True)
