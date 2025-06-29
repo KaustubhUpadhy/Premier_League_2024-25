@@ -125,7 +125,7 @@ if generate_button:
             text=player_name,
             textposition="top center",
             textfont=dict(
-                size=12,
+                size=16,
                 color='silver'
             ),
             name=player_name,
