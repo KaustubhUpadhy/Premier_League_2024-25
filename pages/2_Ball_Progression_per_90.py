@@ -7,25 +7,62 @@ st.set_page_config(page_title="Ball Progression", layout="wide")
 
 st.title("Ball Progression: Pass + Carry")
 
-
 # Load data
 @st.cache_data
 def load_data():
     return pd.read_csv("player_stats.csv")
 
-
 df = load_data()
 
-# sliders for input
-mins = st.slider("Minimum Minutes Played", 0, 3000, 500, step=50)
-min_prog_pass = st.slider("Minimum Progressive Passes", 0, 200, 30, step=5)
+# Create placeholder for graph at top
+graph_placeholder = st.empty()
 
-# Fuction Core Logic
-if st.button("Generate Graph"):
-    # Figuring out the dataframe and filtering
-    # positions = df["position"].unique()
-    # print(positions)
+# Create initial blank graph
+def create_blank_graph():
+    fig, ax = plt.subplots(figsize=(10, 6))
+    fig.patch.set_facecolor("#0e1a26")
+    ax.set_facecolor("#0e1a26")
+    
+    for spine in ax.spines.values():
+        spine.set_color("white")
+    ax.tick_params(colors="white")
+    
+    ax.set_xlabel("Progression via Pass (Season Total)", color="white")
+    ax.set_ylabel("Progression via Carry (Season Total)", color="white")
+    ax.set_title("Ball Progression Per 90 - Pass + Carry", color="white")
+    ax.grid(True, linestyle="--", alpha=0.3)
+    
+    return fig
 
+# Display blank graph initially
+with graph_placeholder.container():
+    st.pyplot(create_blank_graph())
+
+# Add some spacing
+st.write("")
+st.write("")
+
+# Create bottom section with sliders and button
+col1, col2 = st.columns(2)
+
+with col1:
+    mins = st.slider("Minimum Minutes Played", 0, 3000, 500, step=50)
+
+with col2:
+    min_prog_pass = st.slider("Minimum Progressive Passes", 0, 200, 30, step=5)
+
+# Center the button
+col_left, col_center, col_right = st.columns([1, 1, 1])
+
+with col_center:
+    generate_button = st.button(
+        "Generate Graph", 
+        type="primary",
+        use_container_width=True
+    )
+
+# Core Logic
+if generate_button:
     defenders = [
         "DF",
         "DF,MF",
@@ -34,13 +71,11 @@ if st.button("Generate Graph"):
     ]
 
     # Assigning the Filter and axis's
-
     filt = df.loc[
         df["position"].isin(defenders)
         & (df["minutes"] >= mins)
         & (df["progressive_passes"] >= min_prog_pass)
     ]
-    # print(filt)
 
     # Creating another column that Calculates progressive passes and carries per 90
     filt["progressive_passes_per90"] = (
@@ -50,8 +85,9 @@ if st.button("Generate Graph"):
         (filt["progressive_carries"] / filt["minutes"]) * 90
     ).round(2)
 
-    x = filt["progressive_passes"]
-    y = filt["progressive_carries"]
+    # Note: Using per90 values for the actual plotting
+    x = filt["progressive_passes_per90"]
+    y = filt["progressive_carries_per90"]
 
     # Creating & Designing the Scatter Plot
     colors = [
@@ -77,16 +113,19 @@ if st.button("Generate Graph"):
     for spine in ax.spines.values():
         spine.set_color("white")
     ax.tick_params(colors="white")
+    
     # To add Player names to the Label Points
     for i, idx in enumerate(filt.index):
-        player_name = filt.loc[idx, "name"]  # Get actual player name
+        player_name = filt.loc[idx, "name"]
         ax.annotate(
             player_name, (x.iloc[i], y.iloc[i]), fontsize=8, color="silver"
-        )  #  annotates the scatter points with the player names
+        )
 
-    ax.set_xlabel("Progression via Pass (Season Total)", color="white")
-    ax.set_ylabel("Progression via Carry (Season Total)", color="white")
-    ax.set_title("Ball Progression - Pass + Carry", color="white")
+    ax.set_xlabel("Progression via Pass (Per 90)", color="white")
+    ax.set_ylabel("Progression via Carry (Per 90)", color="white")
+    ax.set_title("Ball Progression Per 90 - Pass + Carry", color="white")
     ax.grid(True, linestyle="--", alpha=0.3)
 
-    st.pyplot(fig)
+    # Update the graph placeholder with the new graph
+    with graph_placeholder.container():
+        st.pyplot(fig)
