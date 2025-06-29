@@ -5,7 +5,8 @@ import streamlit as st
 
 st.set_page_config(page_title="Ball Progression", layout="wide")
 
-st.title("Ball Progression: Pass + Carry")
+st.markdown("<h1 style='text-align: center;'>Ball Progression Per 90: Pass + Carry</h1>", unsafe_allow_html=True)
+
 
 # Load data
 @st.cache_data
