@@ -116,15 +116,20 @@ if generate_button:
         fig.add_trace(go.Scatter(
             x=[x.iloc[i]],
             y=[y.iloc[i]],
-            mode='markers',
+            mode='markers+text',
             marker=dict(
                 color=colors[i % len(colors)],
-                size=12,
-                line=dict(width=2, color='white')
+                size=8,
+                line=dict(width=1, color='rgba(255,255,255,0.3)')
+            ),
+            text=player_name,
+            textposition="top center",
+            textfont=dict(
+                size=8,
+                color='silver'
             ),
             name=player_name,
             hovertemplate=f"""
-            <b>{player_name}</b><br>
             Team: {team}<br>
             Position: {position}<br>
             Minutes: {minutes}<br>
@@ -135,7 +140,7 @@ if generate_button:
             showlegend=False
         ))
     
-    # Update layout with dark theme
+    # Update layout to match matplotlib styling
     fig.update_layout(
         plot_bgcolor='#0e1a26',
         paper_bgcolor='#0e1a26',
@@ -150,17 +155,31 @@ if generate_button:
             title='Progression via Pass (Season Total)',
             gridcolor='rgba(255,255,255,0.3)',
             gridwidth=1,
-            color='white'
+            color='white',
+            showgrid=True,
+            zeroline=False
         ),
         yaxis=dict(
             title='Progression via Carry (Season Total)',
             gridcolor='rgba(255,255,255,0.3)',
             gridwidth=1,
-            color='white'
+            color='white',
+            showgrid=True,
+            zeroline=False
         ),
         hovermode='closest',
         width=800,
         height=500
+    )
+    
+    # Add hover effects for text enlargement
+    fig.update_traces(
+        hoverlabel=dict(
+            bgcolor="rgba(0,0,0,0.8)",
+            bordercolor="white",
+            font_size=12,
+            font_color="white"
+        )
     )
 
     # Update the graph placeholder with the new interactive graph
