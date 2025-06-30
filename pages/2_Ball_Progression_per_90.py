@@ -139,6 +139,7 @@ if generate_button:
             ),
             name=player_name,
             hovertemplate=f"""
+            Player Name:{player_name}<br>
             Team: {team}<br>
             Position: {position}<br>
             Minutes: {minutes}<br>
