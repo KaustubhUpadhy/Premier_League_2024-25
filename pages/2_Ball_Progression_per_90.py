@@ -135,7 +135,7 @@ if generate_button:
             textposition="top center",
             textfont=dict(
                 size=16,
-                color='silver'
+                color='white'
             ),
             name=player_name,
             hovertemplate=f"""
