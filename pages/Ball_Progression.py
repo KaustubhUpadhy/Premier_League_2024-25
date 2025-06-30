@@ -211,7 +211,7 @@ if generate_button:
         ),
         hovermode='closest',
         width=800,
-        height=500
+        height=800
     )
     
     # Add hover effects for text enlargement
