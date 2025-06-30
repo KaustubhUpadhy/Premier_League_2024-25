@@ -126,10 +126,11 @@ if generate_button:
             textposition="top center",
             textfont=dict(
                 size=16,
-                color='silver'
+                color='white'
             ),
             name=player_name,
             hovertemplate=f"""
+            <span style="color:{colors[i % len(colors)]}"></span>
             Team: {team}<br>
             Position: {position}<br>
             Minutes: {minutes}<br>
