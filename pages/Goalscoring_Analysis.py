@@ -37,7 +37,7 @@ colors = ['#ff2d96', '#faff00', '#00ffff', '#ff7300', '#00ff66',
 
 # Analysis 1: Goals vs Expected Goals (Scatter Plot)
 if analysis_type == "Goals vs Expected Goals":
-    st.markdown("### Premier League 2024-25: Goals vs Expected Goals Comparison")
+    st.markdown("### Premier League 2024-25: Goals vs Expected Goals Comparison (Top 30 Goalscorers)")
     
     # Filter top 30 scorers
     top_scorers = df.sort_values(by='goals', ascending=False).head(30)
@@ -281,7 +281,7 @@ st.markdown("### 📊 Analysis Insights")
 
 if analysis_type == "Goals vs Expected Goals":
     st.info("""
-    **Understanding the Analysis:**
+    **Understanding the Comparison:**
     - Players above the green line are **overperforming** their expected goals
     - Players below the line are **underperforming** their expected goals
     - The diagonal line represents perfect efficiency (Goals = Expected Goals)
