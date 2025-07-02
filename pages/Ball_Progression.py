@@ -59,11 +59,25 @@ def create_blank_graph(view_type="Season Total"):
     
     return fig
 
-# Add per 90 checkbox at the top
+# Add per 90 checkbox and position filters
 st.write("")
 col_view1, col_view2, col_view3 = st.columns([1, 1, 1])
 with col_view2:
     per_90_mode = st.checkbox("📊 Per 90 Stats", value=False)
+
+# Position filter checkboxes
+st.write("")
+st.markdown("**Select Positions to Include:**")
+pos_col1, pos_col2, pos_col3 = st.columns(3)
+
+with pos_col1:
+    show_defenders = st.checkbox("🛡️ Defenders", value=True)
+
+with pos_col2:
+    show_midfielders = st.checkbox("⚽ Midfielders", value=False)
+
+with pos_col3:
+    show_forwards = st.checkbox("🎯 Forwards", value=False)
 
 # Display blank graph initially
 view_type = "Per 90" if per_90_mode else "Season Total"
@@ -98,20 +112,40 @@ with col_center:
 
 # Core Logic
 if generate_button:
-    defenders = [
-        "DF",
-        "DF,MF",
-        "MF,DF",
-        "DF,FW",
-    ]
+    # Position lists
+    defenders = ["DF", "DF,MF", "MF,DF", "DF,FW"]
+    midfielders = ["MF", "FW,MF", "DF,MF", "MF,DF", "MF,FW"]
+    forwards = ["FW,MF", "FW", "FW,DF", "MF,FW", "DF,FW"]
+    
+    # Build selected positions list based on checkboxes
+    selected_positions = []
+    if show_defenders:
+        selected_positions.extend(defenders)
+    if show_midfielders:
+        selected_positions.extend(midfielders)
+    if show_forwards:
+        selected_positions.extend(forwards)
+    
+    # Remove duplicates while preserving order
+    selected_positions = list(dict.fromkeys(selected_positions))
+    
+    # Check if at least one position is selected
+    if not selected_positions:
+        st.error("Please select at least one position to display!")
+        st.stop()
 
-    # Assigning the Filter with all three parameters
+    # Assigning the Filter with all parameters including position selection
     filt = df.loc[
-        df["position"].isin(defenders)
+        df["position"].isin(selected_positions)
         & (df["minutes"] >= mins)
         & (df["progressive_passes"] >= min_prog_pass)
         & (df["progressive_carries"] >= min_prog_carry)
     ]
+    
+    # Check if filter returns any players
+    if filt.empty:
+        st.warning("No players match the selected criteria. Try adjusting your filters.")
+        st.stop()
 
     # Determine x and y values based on checkbox state
     if per_90_mode:
@@ -211,7 +245,7 @@ if generate_button:
         ),
         hovermode='closest',
         width=800,
-        height=800
+        height=500
     )
     
     # Add hover effects for text enlargement
