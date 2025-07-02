@@ -7,7 +7,7 @@ import numpy as np
 
 st.set_page_config(page_title="Goalscoring Analysis", layout="wide")
 
-st.markdown("<h1 style='text-align: center;'>Goalscoring Analysis Dashboard</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Goalscoring Analysis </h1>", unsafe_allow_html=True)
 
 # Load data
 @st.cache_data
@@ -63,12 +63,12 @@ if analysis_type == "Goals vs Expected Goals":
             mode='markers+text',
             marker=dict(
                 color=colors[i % len(colors)],
-                size=10,
+                size=16,
                 line=dict(width=1, color='rgba(255,255,255,0.3)')
             ),
             text=player_name,
             textposition="top center",
-            textfont=dict(size=8, color='silver'),
+            textfont=dict(size=16, color='silver'),
             name=player_name,
             hovertemplate=f"""
             Player: {player_name}<br>
@@ -101,16 +101,16 @@ if analysis_type == "Goals vs Expected Goals":
         x=max_val * 0.5, y=max_val * 0.2,
         text="Underperforming",
         showarrow=False,
-        font=dict(size=20, color='#ff2d96'),
-        opacity=0.3
+        font=dict(size=24, color='#ff2d96'),
+        opacity=0.8
     )
     
     fig.add_annotation(
         x=max_val * 0.1, y=max_val * 0.9,
         text="Overperforming",
         showarrow=False,
-        font=dict(size=20, color='#ff2d96'),
-        opacity=0.3
+        font=dict(size=24, color='#ff2d96'),
+        opacity=0.8
     )
     
     fig.update_layout(
@@ -121,7 +121,7 @@ if analysis_type == "Goals vs Expected Goals":
             'text': 'Goals vs Expected Goals Comparison',
             'x': 0.5,
             'xanchor': 'center',
-            'font': {'color': 'white', 'size': 18}
+            'font': {'color': 'white', 'size': 24}
         },
         xaxis=dict(
             title='Expected Goals (xG)',
