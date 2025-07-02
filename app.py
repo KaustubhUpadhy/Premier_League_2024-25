@@ -11,13 +11,14 @@ def get_base64_img(img_path):
     with open(img_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-# Base64 image
+# Base64 images
 img1 = get_base64_img("images/ball_prog.png")
+img2 = get_base64_img("images/goalscoring.png")  # Add goalscoring image
 
-# Center the single card
-col_left, col_center, col_right = st.columns([1, 2, 1])
+# Create two columns for the cards
+col1, col2 = st.columns(2)
 
-with col_center:
+with col1:
     st.markdown(f"""
     <div style='
         border-radius:12px;
@@ -39,4 +40,28 @@ with col_center:
     
     st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
     st.page_link("pages/Ball_Progression.py", label="⚽ Open Dashboard", icon="➡️")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with col2:
+    st.markdown(f"""
+    <div style='
+        border-radius:12px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.15);
+        overflow:hidden;
+        transition:0.3s ease;
+        width:100%;
+        height:330px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    '>
+        <img src='data:image/png;base64,{img2}' style='width:100%; height:250px; object-fit:cover;'/>
+        <div style='padding:10px; background-color:#f8f8f8; text-align:center;'>
+            <h4>Goalscoring Analysis</h4>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
+    st.page_link("pages/Goalscoring_Analysis.py", label="🎯 Open Dashboard", icon="➡️")
     st.markdown("</div>", unsafe_allow_html=True)
