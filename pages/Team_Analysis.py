@@ -6,8 +6,11 @@ from urllib.parse import parse_qs
 st.set_page_config(page_title="Team Analysis", layout="wide")
 
 # Get team parameter from URL (if available)
-query_params = st.experimental_get_query_params()
-selected_team = query_params.get('team', ['Liverpool'])[0].replace('_', ' ')
+try:
+    query_params = st.query_params
+    selected_team = query_params.get('team', 'Liverpool').replace('_', ' ')
+except:
+    selected_team = 'Liverpool'
 
 st.markdown(f"<h1 style='text-align: center;'>{selected_team} - Team Analysis</h1>", unsafe_allow_html=True)
 

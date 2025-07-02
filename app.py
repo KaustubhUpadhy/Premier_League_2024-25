@@ -16,30 +16,6 @@ def get_base64_img(img_path):
     with open(img_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-# Team logo mapping (you'll need to add these image files)
-team_logos = {
-    "Liverpool": "logos/liverpool.png",
-    "Arsenal": "logos/arsenal.png", 
-    "Manchester City": "logos/man_city.png",
-    "Chelsea": "logos/chelsea.png",
-    "Newcastle United": "logos/newcastle.png",
-    "Aston Villa": "logos/aston_villa.png",
-    "Nottingham Forest": "logos/nottingham.png",
-    "Brighton and Hove Albion": "logos/brighton.png",
-    "Bournemouth": "logos/bournemouth.png",
-    "Brentford": "logos/brentford.png",
-    "Fulham": "logos/fulham.png",
-    "Crystal Palace": "logos/crystal_palace.png",
-    "Everton": "logos/everton.png",
-    "West Ham United": "logos/west_ham.png",
-    "Tottenham Hotspur": "logos/tottenham.png",
-    "Manchester United": "logos/man_united.png",
-    "Leicester City": "logos/leicester.png",
-    "Wolverhampton Wanderers": "logos/wolves.png",
-    "Ipswich Town": "logos/ipswich.png",
-    "Southampton": "logos/southampton.png"
-}
-
 # Load and display Premier League table
 st.markdown("## 📊 Premier League Table 2024/25")
 
@@ -82,13 +58,6 @@ st.markdown("""
     cursor: pointer;
 }
 
-.team-logo {
-    width: 25px;
-    height: 25px;
-    margin-right: 8px;
-    vertical-align: middle;
-}
-
 .team-name {
     text-align: left;
     font-weight: 500;
@@ -121,21 +90,29 @@ table_html = """
         <tr>
             <th>Pos</th>
             <th>Team</th>
-            <th>Pl</th>
             <th>W</th>
-            <th>D</th>
             <th>L</th>
+            <th>D</th>
             <th>GF</th>
             <th>GA</th>
             <th>Pts</th>
+            <th>Last 5</th>
         </tr>
     </thead>
     <tbody>
 """
 
 for index, row in table_data.iterrows():
-    pos = index + 1
-    team_name = row.iloc[0]  # Assuming team name is first column
+    # Using actual column names from your CSV
+    pos = row['rank']
+    team_name = row['team']
+    wins = row['win']
+    losses = row['loss']
+    draws = row['draw']
+    goals_for = row['goals']
+    goals_against = row['conceded']
+    points = row['points']
+    last5 = row['last5']
     
     # Determine row class for qualification zones
     row_class = ""
@@ -146,25 +123,17 @@ for index, row in table_data.iterrows():
     elif pos >= 18:
         row_class = "relegation-zone"
     
-    # Try to get team logo, use placeholder if not found
-    try:
-        logo_path = team_logos.get(team_name, f"logos/{team_name.lower().replace(' ', '_')}.png")
-        logo_base64 = get_base64_img(logo_path)
-        logo_html = f'<img src="data:image/png;base64,{logo_base64}" class="team-logo">'
-    except:
-        logo_html = f'<div style="width: 25px; height: 25px; background-color: #37003c; border-radius: 50%; display: inline-block; margin-right: 8px;"></div>'
-    
     table_html += f"""
         <tr class="{row_class}" onclick="window.open('pages/Team_Analysis.py?team={team_name.replace(' ', '_')}', '_blank')">
             <td class="position">{pos}</td>
-            <td class="team-name">{logo_html}{team_name}</td>
-            <td>{row.iloc[1]}</td>
-            <td>{row.iloc[2]}</td>
-            <td>{row.iloc[3]}</td>
-            <td>{row.iloc[4]}</td>
-            <td>{row.iloc[5]}</td>
-            <td>{row.iloc[6]}</td>
-            <td><strong>{row.iloc[7]}</strong></td>
+            <td class="team-name">{team_name}</td>
+            <td>{wins}</td>
+            <td>{losses}</td>
+            <td>{draws}</td>
+            <td>{goals_for}</td>
+            <td>{goals_against}</td>
+            <td><strong>{points}</strong></td>
+            <td>{last5}</td>
         </tr>
     """
 
@@ -192,9 +161,10 @@ st.markdown("## 🎯 Analysis Dashboards")
 # Base64 images for dashboard cards
 img1 = get_base64_img("images/ball_prog.png")
 img2 = get_base64_img("images/goalscoring.png")
+img3 = get_base64_img("images/team_analysis.png")  # Add team analysis image
 
-# Create two columns for the cards
-col1, col2 = st.columns(2)
+# Create three columns for the cards
+col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown(f"""
@@ -242,4 +212,28 @@ with col2:
     
     st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
     st.page_link("pages/Goalscoring_Analysis.py", label="🎯 Open Dashboard", icon="➡️")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with col3:
+    st.markdown(f"""
+    <div style='
+        border-radius:12px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.15);
+        overflow:hidden;
+        transition:0.3s ease;
+        width:100%;
+        height:330px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    '>
+        <img src='data:image/png;base64,{img3}' style='width:100%; height:250px; object-fit:cover;'/>
+        <div style='padding:10px; background-color:#f8f8f8; text-align:center;'>
+            <h4>Team Analysis</h4>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
+    st.page_link("pages/Team_Analysis.py", label="🏆 Open Dashboard", icon="➡️")
     st.markdown("</div>", unsafe_allow_html=True)
