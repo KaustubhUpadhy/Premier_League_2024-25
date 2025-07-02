@@ -22,136 +22,132 @@ st.markdown("## 📊 Premier League Table 2024/25")
 df_standings = load_standings()
 table_data = df_standings.iloc[:, :9]  # Get first 9 columns as specified
 
-# Create the interactive table
+# Load and display Premier League table
+st.markdown("## 📊 Premier League Table 2024/25")
+
+df_standings = load_standings()
+table_data = df_standings.iloc[:, :9].copy()  # Get first 9 columns as specified
+
+# Add qualification zone indicators
+def get_zone_indicator(position):
+    if position <= 4:
+        return "🟢"  # Champions League
+    elif position <= 7:
+        return "🟠"  # Europa League
+    elif position >= 18:
+        return "🔴"  # Relegation
+    else:
+        return "⚪"  # Mid-table
+
+# Prepare data for display
+display_data = table_data.copy()
+display_data['Zone'] = display_data['rank'].apply(get_zone_indicator)
+display_data = display_data[['Zone', 'rank', 'team', 'win', 'loss', 'draw', 'goals', 'conceded', 'points', 'last5']]
+
+# Rename columns for better display
+display_data.columns = ['', 'Pos', 'Team', 'W', 'L', 'D', 'GF', 'GA', 'Pts', 'Last 5']
+
+# Custom CSS for the dataframe
 st.markdown("""
 <style>
-.team-table {
+.stDataFrame {
     width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 14px;
-    background-color: white;
 }
-
-.team-table th {
-    background-color: #37003c;
-    color: white;
-    font-weight: bold;
-    padding: 12px 8px;
-    text-align: center;
-    border: 1px solid #ddd;
+.stDataFrame > div {
+    width: 100%;
 }
-
-.team-table td {
-    padding: 10px 8px;
-    text-align: center;
-    border: 1px solid #ddd;
-    vertical-align: middle;
+.stDataFrame table {
+    width: 100% !important;
 }
-
-.team-table tr:nth-child(even) {
-    background-color: #f8f9fa;
+.stDataFrame th {
+    background-color: #37003c !important;
+    color: white !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    padding: 12px 8px !important;
 }
-
-.team-table tr:hover {
-    background-color: #e3f2fd;
-    cursor: pointer;
+.stDataFrame td {
+    text-align: center !important;
+    padding: 8px !important;
 }
-
-.team-name {
-    text-align: left;
-    font-weight: 500;
-}
-
-.position {
-    font-weight: bold;
-    color: #37003c;
-    min-width: 30px;
-}
-
-.qualification-zone {
-    border-left: 4px solid #00ff00;
-}
-
-.europa-zone {
-    border-left: 4px solid #ff8c00;
-}
-
-.relegation-zone {
-    border-left: 4px solid #ff0000;
+.stDataFrame tbody tr:hover {
+    background-color: #e3f2fd !important;
+    cursor: pointer !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Generate table HTML
-table_html = """
-<table class="team-table">
-    <thead>
-        <tr>
-            <th>Pos</th>
-            <th>Team</th>
-            <th>W</th>
-            <th>L</th>
-            <th>D</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>Pts</th>
-            <th>Last 5</th>
-        </tr>
-    </thead>
-    <tbody>
-"""
+# Display the table
+st.dataframe(
+    display_data,
+    use_container_width=True,
+    hide_index=True,
+    column_config={
+        "": st.column_config.TextColumn(
+            "",
+            width="small",
+        ),
+        "Pos": st.column_config.NumberColumn(
+            "Pos",
+            width="small",
+        ),
+        "Team": st.column_config.TextColumn(
+            "Team",
+            width="medium",
+        ),
+        "W": st.column_config.NumberColumn(
+            "W",
+            width="small",
+        ),
+        "L": st.column_config.NumberColumn(
+            "L", 
+            width="small",
+        ),
+        "D": st.column_config.NumberColumn(
+            "D",
+            width="small",
+        ),
+        "GF": st.column_config.NumberColumn(
+            "GF",
+            width="small",
+        ),
+        "GA": st.column_config.NumberColumn(
+            "GA",
+            width="small",
+        ),
+        "Pts": st.column_config.NumberColumn(
+            "Pts",
+            width="small",
+        ),
+        "Last 5": st.column_config.TextColumn(
+            "Last 5",
+            width="medium",
+        ),
+    }
+)
 
-for index, row in table_data.iterrows():
-    # Using actual column names from your CSV
-    pos = row['rank']
-    team_name = row['team']
-    wins = row['win']
-    losses = row['loss']
-    draws = row['draw']
-    goals_for = row['goals']
-    goals_against = row['conceded']
-    points = row['points']
-    last5 = row['last5']
-    
-    # Determine row class for qualification zones
-    row_class = ""
-    if pos <= 4:
-        row_class = "qualification-zone"
-    elif pos <= 7:
-        row_class = "europa-zone" 
-    elif pos >= 18:
-        row_class = "relegation-zone"
-    
-    table_html += f"""
-        <tr class="{row_class}" onclick="window.open('pages/Team_Analysis.py?team={team_name.replace(' ', '_')}', '_blank')">
-            <td class="position">{pos}</td>
-            <td class="team-name">{team_name}</td>
-            <td>{wins}</td>
-            <td>{losses}</td>
-            <td>{draws}</td>
-            <td>{goals_for}</td>
-            <td>{goals_against}</td>
-            <td><strong>{points}</strong></td>
-            <td>{last5}</td>
-        </tr>
-    """
+# Add legend and team selection
+col1, col2 = st.columns([2, 1])
 
-table_html += """
-    </tbody>
-</table>
-"""
+with col1:
+    st.markdown("""
+    <div style='display: flex; justify-content: start; gap: 20px; margin: 20px 0; font-size: 12px;'>
+        <div><span style='color: #00ff00; font-size: 16px;'>🟢</span> Champions League</div>
+        <div><span style='color: #ff8c00; font-size: 16px;'>🟠</span> Europa League</div>
+        <div><span style='color: #ff0000; font-size: 16px;'>🔴</span> Relegation</div>
+        <div><span style='color: #ffffff; font-size: 16px;'>⚪</span> Mid-table</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.markdown(table_html, unsafe_allow_html=True)
-
-# Add legend for table colors
-st.markdown("""
-<div style='display: flex; justify-content: center; gap: 20px; margin: 20px 0; font-size: 12px;'>
-    <div><span style='color: #00ff00; font-size: 16px;'>█</span> Champions League</div>
-    <div><span style='color: #ff8c00; font-size: 16px;'>█</span> Europa League</div>
-    <div><span style='color: #ff0000; font-size: 16px;'>█</span> Relegation</div>
-</div>
-""", unsafe_allow_html=True)
+with col2:
+    # Team selection dropdown for analysis
+    selected_team = st.selectbox(
+        "🏆 Select team for analysis:",
+        options=table_data['team'].tolist(),
+        index=0
+    )
+    if st.button("Open Team Analysis", type="secondary"):
+        st.switch_page("pages/Team_Analysis.py")
 
 st.write("---")
 
