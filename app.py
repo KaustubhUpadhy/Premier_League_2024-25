@@ -16,9 +16,6 @@ def get_base64_img(img_path):
     with open(img_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-# Load and display Premier League table
-st.markdown("## 📊 Premier League Table 2024/25")
-
 df_standings = load_standings()
 table_data = df_standings.iloc[:, :9]  # Get first 9 columns as specified
 
