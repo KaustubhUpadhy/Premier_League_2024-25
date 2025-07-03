@@ -15,7 +15,10 @@ def load_standings():
 def get_base64_img(img_path):
     with open(img_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
-    
+
+# Load and display Premier League table
+st.markdown("## 📊 Premier League Table 2024/25")
+
 df_standings = load_standings()
 table_data = df_standings.iloc[:, :9]  # Get first 9 columns as specified
 
@@ -156,7 +159,8 @@ img1 = get_base64_img("images/ball_prog.png")
 img2 = get_base64_img("images/goalscoring.png")
 img3 = get_base64_img("images/team_analysis.png")
 img4 = get_base64_img("images/attacking_efficiency.png")
-img5 = get_base64_img("images/age_distribution.png")  # Add age distribution image
+img5 = get_base64_img("images/age_distribution.png")
+img6 = get_base64_img("images/ball_possession.png")  # Add ball possession image
 
 # Create two rows of cards
 col1, col2, col3 = st.columns(3)
@@ -235,7 +239,7 @@ with col3:
 
 # Second row
 st.write("")
-col4, col5, col6 = st.columns([1, 1, 1])
+col4, col5, col6 = st.columns(3)
 
 with col4:
     st.markdown(f"""
@@ -283,4 +287,28 @@ with col5:
     
     st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
     st.page_link("pages/Age_Distribution.py", label="📅 Open Dashboard", icon="➡️")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with col6:
+    st.markdown(f"""
+    <div style='
+        border-radius:12px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.15);
+        overflow:hidden;
+        transition:0.3s ease;
+        width:100%;
+        height:330px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    '>
+        <img src='data:image/png;base64,{img6}' style='width:100%; height:250px; object-fit:cover;'/>
+        <div style='padding:10px; background-color:#f8f8f8; text-align:center;'>
+            <h4>Ball Possession</h4>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
+    st.page_link("pages/Ball_Possession.py", label="🏀 Open Dashboard", icon="➡️")
     st.markdown("</div>", unsafe_allow_html=True)
