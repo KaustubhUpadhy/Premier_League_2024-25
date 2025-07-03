@@ -69,9 +69,9 @@ for position in filt_carries['position'].unique():
         textfont=dict(size=8, color='white'),
         name=position,
         customdata=np.column_stack((
-            pos_data['team'] if 'team' in pos_data else 'Unknown',
-            pos_data['minutes'] if 'minutes' in pos_data else 0,
-            (pos_data['progressive_carries'] / pos_data['carries'] * 100).round(1)
+            pos_data['team'].values if 'team' in pos_data.columns else ['Unknown'] * len(pos_data),
+            pos_data['minutes'].values if 'minutes' in pos_data.columns else [0] * len(pos_data),
+            (pos_data['progressive_carries'] / pos_data['carries'] * 100).round(1).values
         )),
         hovertemplate="""
         <b>%{text}</b><br>
