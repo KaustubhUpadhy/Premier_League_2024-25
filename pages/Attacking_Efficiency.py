@@ -360,13 +360,13 @@ top_dribblers = df.sort_values(by='take_on_success_rate', ascending=False).head(
 
 # Merge with player_stats.csv to get progressive_carries data
 merged_data = top_dribblers.merge(
-    player_df[['name', 'progressive_carries', 'carries']], 
+    player_df[['name', 'progressive_carries']], 
     left_on='player', 
     right_on='name', 
     how='left'
 )
 
-# Calculate progressive carry ratio
+# Calculate progressive carry ratio using carries from possession stats and progressive_carries from player stats
 merged_data['progressive_carry_ratio'] = merged_data['progressive_carries'] / merged_data['carries']
 
 # Remove any rows with missing data
