@@ -218,7 +218,7 @@ st.write("---")
 st.markdown("## ⚖️ Efficiency vs Risk Balance")
 
 # Filter top 15 for cleaner mirror chart
-filt_mirror = df.nlargest(15, 'attempted_take_ons')
+filt_mirror = df.nlargest(20, 'attempted_take_ons')
 filt_mirror = filt_mirror.sort_values('take_on_success_rate', ascending=True)
 
 fig3 = go.Figure()
@@ -322,7 +322,7 @@ fig3.add_annotation(
 )
 
 fig3.add_annotation(
-    x=-1.5, y=len(filt_mirror) + 1,
+    x=-1, y=len(filt_mirror) + 1,
     text="🔴 RISKY",
     showarrow=False,
     font=dict(size=14, color='#ff2d96'),
@@ -345,7 +345,6 @@ This mirror chart shows the **trade-off** between attacking success and possessi
 
 **Key Insight**: The most valuable attackers maximize their green bar while minimizing their red bar. Players heavily skewed to the right are safe but effective, while those with prominent red bars are exciting but potentially costly.
 
-**Coaching Application**: Use this to identify which players should attempt more take-ons (efficient players) vs those who should be more selective (high-risk players).
 """)
 
 # Summary section

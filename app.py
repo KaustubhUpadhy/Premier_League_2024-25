@@ -15,8 +15,7 @@ def load_standings():
 def get_base64_img(img_path):
     with open(img_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
-
-
+    
 df_standings = load_standings()
 table_data = df_standings.iloc[:, :9]  # Get first 9 columns as specified
 
@@ -156,10 +155,11 @@ st.markdown("## 🎯 Analysis Dashboards")
 img1 = get_base64_img("images/ball_prog.png")
 img2 = get_base64_img("images/goalscoring.png")
 img3 = get_base64_img("images/team_analysis.png")
-img4 = get_base64_img("images/attacking_efficiency.png")  # Add attacking efficiency image
+img4 = get_base64_img("images/attacking_efficiency.png")
+img5 = get_base64_img("images/age_distribution.png")  # Add age distribution image
 
-# Create four columns for the cards
-col1, col2, col3, col4 = st.columns(4)
+# Create two rows of cards
+col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown(f"""
@@ -233,6 +233,10 @@ with col3:
     st.page_link("pages/Team_Analysis.py", label="🏆 Open Dashboard", icon="➡️")
     st.markdown("</div>", unsafe_allow_html=True)
 
+# Second row
+st.write("")
+col4, col5, col6 = st.columns([1, 1, 1])
+
 with col4:
     st.markdown(f"""
     <div style='
@@ -255,4 +259,28 @@ with col4:
     
     st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
     st.page_link("pages/Attacking_Efficiency.py", label="⚔️ Open Dashboard", icon="➡️")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with col5:
+    st.markdown(f"""
+    <div style='
+        border-radius:12px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.15);
+        overflow:hidden;
+        transition:0.3s ease;
+        width:100%;
+        height:330px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    '>
+        <img src='data:image/png;base64,{img5}' style='width:100%; height:250px; object-fit:cover;'/>
+        <div style='padding:10px; background-color:#f8f8f8; text-align:center;'>
+            <h4>Age Distribution</h4>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
+    st.page_link("pages/Age_Distribution.py", label="📅 Open Dashboard", icon="➡️")
     st.markdown("</div>", unsafe_allow_html=True)
