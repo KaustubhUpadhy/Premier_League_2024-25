@@ -220,7 +220,7 @@ st.write("---")
 st.markdown("## ⚖️ Efficiency vs Risk Balance")
 
 # Filter top 15 for cleaner mirror chart
-filt_mirror = df.nlargest(15, 'attempted_take_ons')
+filt_mirror = df.nlargest(20, 'attempted_take_ons')
 filt_mirror = filt_mirror.sort_values('take_on_success_rate', ascending=True)
 
 fig3 = go.Figure()
