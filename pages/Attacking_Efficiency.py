@@ -18,7 +18,7 @@ df = load_data()
 
 # Calculate success rate and other metrics
 df['take_on_success_rate'] = df['successful_take_ons'] / df['attempted_take_ons']
-df['dispossessed_rate'] = df['dispossessed'] / df['minutes'] * 90  # per 90 minutes
+df['dispossessed_rate'] = df['takeons_tackled'] / df['attempted_take_ons']  # per 90 minutes
 
 st.write("---")
 
