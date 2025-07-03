@@ -142,7 +142,7 @@ for position in filt_bubble['position'].unique():
             pos_data['team'] if 'team' in pos_data else 'Unknown',
             pos_data['attempted_take_ons'],
             pos_data['successful_take_ons'],
-            pos_data['dispossessed'] if 'dispossessed' in pos_data else 0
+            pos_data['takeons_tackled'] if 'takeons_tackled' in pos_data else 0
         )),
         hovertemplate="""
         <b>%{text}</b><br>
