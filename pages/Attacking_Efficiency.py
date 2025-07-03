@@ -23,10 +23,10 @@ df['dispossessed_rate'] = df['takeons_tackled'] / df['attempted_take_ons']  # pe
 st.write("---")
 
 # VISUALIZATION 1: Success Rate Bar Chart
-st.markdown("## 📊 Top 20 Players by Take-On Success Rate")
+st.markdown("## 📊 Top 30 Players by Take-On Success Rate")
 
 # Filter top 20 by attempted take-ons
-filt_success = df.sort_values(by='attempted_take_ons', ascending=False).head(20)
+filt_success = df.sort_values(by='attempted_take_ons', ascending=False).head(30)
 
 fig1 = go.Figure()
 
@@ -62,7 +62,7 @@ fig1.update_layout(
     paper_bgcolor='#0e1a26',
     font_color='white',
     title={
-        'text': 'Take-On Success Rate - Top 20 Most Active Dribblers',
+        'text': 'Take-On Success Rate - Top 30 Most Active Dribblers',
         'x': 0.5,
         'xanchor': 'center',
         'font': {'color': 'white', 'size': 18}
@@ -105,7 +105,7 @@ st.write("---")
 st.markdown("## 🫧 Take-On Efficiency Bubble Chart")
 
 # Use top 50 players for bubble chart to show more variety
-filt_bubble = df.nlargest(50, 'attempted_take_ons')
+filt_bubble = df.nlargest(30, 'attempted_take_ons')
 
 # Create color mapping for positions
 position_colors = {
@@ -249,7 +249,7 @@ fig3.add_trace(go.Bar(
     customdata=np.column_stack((
         filt_mirror['team'] if 'team' in filt_mirror else 'Unknown',
         filt_mirror['dispossessed_rate'],
-        filt_mirror['dispossessed'] if 'dispossessed' in filt_mirror else 0
+        filt_mirror['takeons_tackled'] if 'takeons_tackled' in filt_mirror else 0
     )),
     hovertemplate="""
     <b>%{y}</b><br>
