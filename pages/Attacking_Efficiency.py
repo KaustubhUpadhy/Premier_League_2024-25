@@ -355,8 +355,9 @@ st.write("---")
 # VISUALIZATION 4: Dribbling vs Progression Efficiency
 st.markdown("## 🎯 Dribbling vs Progression Efficiency")
 
-# Get top 30 players by take-on success rate
-top_dribblers = df.sort_values(by='attempted_take_ons', ascending=False).head(30)
+# Filter players with at least 70 attempted take-ons, then get top 30
+filtered_dribblers = df[df['attempted_take_ons'] >= 70]
+top_dribblers = filtered_dribblers.sort_values(by='attempted_take_ons', ascending=False).head(30)
 
 # Merge with player_stats.csv to get progressive_carries data
 merged_data = top_dribblers.merge(
