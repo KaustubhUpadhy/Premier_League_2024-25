@@ -202,27 +202,6 @@ with col3:
 
 st.write("---")
 
-# Key insights section
-st.markdown("## 💡 Key Insights")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.info("""
-    **Team Analysis**
-    - Reveals squad planning philosophies
-    - Identifies youth vs experience strategies  
-    - Shows depth across age groups
-    """)
-
-with col2:
-    st.info("""
-    **Position Analysis**
-    - Maps career progression patterns
-    - Highlights positional age requirements
-    - Identifies market opportunities
-    """)
-
 # Back to homepage button
 st.write("---")
 if st.button("🏠 Back to Homepage"):
