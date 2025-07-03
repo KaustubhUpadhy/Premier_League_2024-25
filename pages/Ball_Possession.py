@@ -20,7 +20,7 @@ df, player_df = load_data()
 
 # Merge to get progressive_carries from player_stats.csv
 merged_df = df.merge(
-    player_df[['name', 'progressive_carries']], 
+    player_df[['name', 'progressive_carries','minutes']], 
     left_on='player', 
     right_on='name', 
     how='left'
