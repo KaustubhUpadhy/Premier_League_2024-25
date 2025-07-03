@@ -32,7 +32,7 @@ st.write("---")
 st.markdown("## 📊 Carries Volume vs Progressiveness")
 
 # Filter players with meaningful carry data (at least 50 carries) and valid progressive carries data
-filt_carries = merged_df[(merged_df['carries'] >= 50) & (merged_df['progressive_carries'].notna())]
+filt_carries = merged_df[(merged_df['carries'] >= 500) & (merged_df['progressive_carries'].notna())&(merged_df['minutes']>1000)]
 
 # Create color mapping for positions
 position_colors = {
@@ -262,7 +262,6 @@ top_distance_carrier = df.loc[df['total_distance_carried'].idxmax()] if not df.e
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric("League Progressive Rate", f"{avg_progressive_rate:.1f}%")
     if top_volume_carrier is not None:
         st.markdown(f"**🔄 Most Total Carries:**  \n{top_volume_carrier['player']} ({int(top_volume_carrier['carries'])})")
 
@@ -274,27 +273,6 @@ with col3:
     if top_distance_carrier is not None:
         st.markdown(f"**🏃‍♂️ Most Distance Covered:**  \n{top_distance_carrier['player']} ({int(top_distance_carrier['total_distance_carried'])}m)")
 
-# Key insights section
-st.write("---")
-st.markdown("## 💡 Key Insights")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.info("""
-    **Volume vs Effectiveness**
-    - Identifies players who carry frequently AND progressively
-    - Shows tactical roles through carry patterns
-    - Reveals efficiency in ball progression
-    """)
-
-with col2:
-    st.info("""
-    **Distance Analysis**
-    - Maps physical involvement with the ball
-    - Distinguishes volume vs burst carriers
-    - Highlights transitional playmakers
-    """)
 
 # Back to homepage button
 st.write("---")
