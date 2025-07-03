@@ -31,8 +31,8 @@ st.write("---")
 # VISUALIZATION 1: Carries Volume + Progressiveness
 st.markdown("## 📊 Carries Volume vs Progressiveness")
 
-# Filter players with meaningful carry data (at least 50 carries)
-filt_carries = merged_df[merged_df['carries'] >= 50]
+# Filter players with meaningful carry data (at least 50 carries) and valid progressive carries data
+filt_carries = merged_df[(merged_df['carries'] >= 50) & (merged_df['progressive_carries'].notna())]
 
 # Create color mapping for positions
 position_colors = {
