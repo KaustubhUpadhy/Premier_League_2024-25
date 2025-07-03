@@ -38,7 +38,7 @@ def load_standings():
 df = load_data()
 standings_df = load_standings()
 ven = pd.read_csv("fixtures.csv")
-avg_attendance = ven.groupby(["Home", "Venue"])["Attendance"].mean().round()
+
 if df.empty:
     st.error("Player stats data not found. Please ensure 'player_stats.csv' exists.")
     st.stop()
@@ -61,7 +61,7 @@ if "team" in df.columns:
 
     # Filter data for selected team
     team_data = df[df["team"] == selected_team].copy()
-    attend_data = df[ven["Home"]==selected_team].copy()
+    attend_data = ven[ven["Home"]==selected_team].copy()
 
     if team_data.empty:
         st.warning(f"No data found for {selected_team}")
@@ -86,13 +86,16 @@ if "team" in df.columns:
     
     with col4:
         if "Venue" in attend_data.columns:
-            team_stadium = attend_data['Venue']
-            st.metric("Team Stadium", team_stadium)
+            team_stadium = attend_data['Venue'].unique()
+            st.metric("Team Stadium", str(team_stadium[0]))
 
     with col5:
         if "Venue" in attend_data.columns:
             team_attendance = attend_data['Attendance'].mean()
             st.metric("Avg. Attendance", int(team_attendance))
+
+
+            
     st.write("---")
 
     # Team Position Analysis
