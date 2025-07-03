@@ -38,7 +38,7 @@ def load_standings():
 df = load_data()
 standings_df = load_standings()
 ven = pd.read_csv("fixtures.csv")
-avg_attendance = df.groupby(["Home", "Venue"])["Attendance"].mean().round()
+avg_attendance = ven.groupby(["Home", "Venue"])["Attendance"].mean().round()
 if df.empty:
     st.error("Player stats data not found. Please ensure 'player_stats.csv' exists.")
     st.stop()
