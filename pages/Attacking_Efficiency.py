@@ -18,15 +18,15 @@ df = load_data()
 
 # Calculate success rate and other metrics
 df['take_on_success_rate'] = df['successful_take_ons'] / df['attempted_take_ons']
-df['dispossessed_rate'] = df['takeons_tackled'] / df['attempted_take_ons']  # per 90 minutes
+df['dispossessed_rate'] = df['dispossessed'] / df['minutes'] * 90  # per 90 minutes
 
 st.write("---")
 
 # VISUALIZATION 1: Success Rate Bar Chart
-st.markdown("## 📊 Top 30 Players by Take-On Success Rate")
+st.markdown("## 📊 Top 20 Players by Take-On Success Rate")
 
 # Filter top 20 by attempted take-ons
-filt_success = df.sort_values(by='attempted_take_ons', ascending=False).head(30)
+filt_success = df.sort_values(by='attempted_take_ons', ascending=False).head(20)
 
 fig1 = go.Figure()
 
@@ -62,7 +62,7 @@ fig1.update_layout(
     paper_bgcolor='#0e1a26',
     font_color='white',
     title={
-        'text': 'Take-On Success Rate - Top 30 Most Active Dribblers',
+        'text': 'Take-On Success Rate - Top 20 Most Active Dribblers',
         'x': 0.5,
         'xanchor': 'center',
         'font': {'color': 'white', 'size': 18}
@@ -105,7 +105,7 @@ st.write("---")
 st.markdown("## 🫧 Take-On Efficiency Bubble Chart")
 
 # Use top 50 players for bubble chart to show more variety
-filt_bubble = df.nlargest(30, 'attempted_take_ons')
+filt_bubble = df.nlargest(50, 'attempted_take_ons')
 
 # Create color mapping for positions
 position_colors = {
@@ -142,7 +142,7 @@ for position in filt_bubble['position'].unique():
             pos_data['team'] if 'team' in pos_data else 'Unknown',
             pos_data['attempted_take_ons'],
             pos_data['successful_take_ons'],
-            pos_data['takeons_tackled'] if 'takeons_tackled' in pos_data else 0
+            pos_data['dispossessed'] if 'dispossessed' in pos_data else 0
         )),
         hovertemplate="""
         <b>%{text}</b><br>
@@ -184,9 +184,15 @@ fig2.update_layout(
         tickformat='.0%'
     ),
     legend=dict(
-        bgcolor='rgba(0,0,0,0.5)',
+        bgcolor='rgba(255,255,255,0.2)',
         bordercolor='white',
-        borderwidth=1
+        borderwidth=2,
+        font=dict(
+            color='white',
+            size=14,
+            family='Arial Black'
+        ),
+        itemsizing='constant'
     ),
     height=600
 )
@@ -249,7 +255,7 @@ fig3.add_trace(go.Bar(
     customdata=np.column_stack((
         filt_mirror['team'] if 'team' in filt_mirror else 'Unknown',
         filt_mirror['dispossessed_rate'],
-        filt_mirror['takeons_tackled'] if 'takeons_tackled' in filt_mirror else 0
+        filt_mirror['dispossessed'] if 'dispossessed' in filt_mirror else 0
     )),
     hovertemplate="""
     <b>%{y}</b><br>
@@ -285,14 +291,20 @@ fig3.update_layout(
         color='white'
     ),
     legend=dict(
-        bgcolor='rgba(0,0,0,0.5)',
+        bgcolor='rgba(255,255,255,0.2)',
         bordercolor='white',
-        borderwidth=1,
+        borderwidth=2,
         orientation='h',
         yanchor='bottom',
         y=1.02,
         xanchor='center',
-        x=0.5
+        x=0.5,
+        font=dict(
+            color='white',
+            size=14,
+            family='Arial Black'
+        ),
+        itemsizing='constant'
     ),
     height=600,
     barmode='overlay'
