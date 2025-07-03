@@ -18,7 +18,7 @@ df = load_data()
 
 # Calculate success rate and other metrics
 df['take_on_success_rate'] = df['successful_take_ons'] / df['attempted_take_ons']
-df['dispossessed_rate'] = df['dispossessed'] / df['minutes'] * 90  # per 90 minutes
+df['dispossessed_rate'] = df['takeons_tackled'] / df['attempted_take_ons']  # per 90 minutes
 
 st.write("---")
 
@@ -142,7 +142,7 @@ for position in filt_bubble['position'].unique():
             pos_data['team'] if 'team' in pos_data else 'Unknown',
             pos_data['attempted_take_ons'],
             pos_data['successful_take_ons'],
-            pos_data['dispossessed'] if 'dispossessed' in pos_data else 0
+            pos_data['takeons_tackled'] if 'takeons_tackled' in pos_data else 0
         )),
         hovertemplate="""
         <b>%{text}</b><br>
@@ -255,7 +255,7 @@ fig3.add_trace(go.Bar(
     customdata=np.column_stack((
         filt_mirror['team'] if 'team' in filt_mirror else 'Unknown',
         filt_mirror['dispossessed_rate'],
-        filt_mirror['dispossessed'] if 'dispossessed' in filt_mirror else 0
+        filt_mirror['takeons_tackled'] if 'takeons_tackled' in filt_mirror else 0
     )),
     hovertemplate="""
     <b>%{y}</b><br>
