@@ -60,8 +60,7 @@ fig1.update_layout(
         zeroline=False
     ),
     coloraxis_colorbar=dict(
-        title="Minutes Played",
-        titlefont=dict(color='white'),
+        title=dict(text="Minutes Played", font=dict(color='white')),
         tickfont=dict(color='white'),
         bgcolor='rgba(0,0,0,0.5)',
         bordercolor='white',
@@ -140,8 +139,7 @@ fig2.update_layout(
         zeroline=False
     ),
     coloraxis_colorbar=dict(
-        title="Minutes Played",
-        titlefont=dict(color='white'),
+        title=dict(text="Minutes Played", font=dict(color='white')),
         tickfont=dict(color='white'),
         bgcolor='rgba(0,0,0,0.5)',
         bordercolor='white',
