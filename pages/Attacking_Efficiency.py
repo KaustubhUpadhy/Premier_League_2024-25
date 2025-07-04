@@ -204,7 +204,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # Analysis for Visualization 2
 st.markdown("""
 ### 🔍 Analysis: Volume vs Efficiency Balance
-This bubble chart reveals the relationship between **dribbling frequency**, **success rate**, and **total output**:
+This bubble chart reveals the relationship between **dribbling frequency**, **success rate**, and **total output** based on top 50 players by Attempted Take ons:
 
 - **Top-Right Quadrant**: Elite dribblers who attempt many take-ons AND succeed frequently - these are game-changers
 - **Bubble Size**: Represents successful take-ons completed - larger bubbles show higher absolute contribution

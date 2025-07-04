@@ -37,11 +37,15 @@ colors = ['#ff2d96', '#faff00', '#00ffff', '#ff7300', '#00ff66',
 
 # Analysis 1: Goals vs Expected Goals (Scatter Plot)
 if analysis_type == "Goals vs Expected Goals":
-    st.markdown("### Premier League 2024-25: Goals vs Expected Goals Comparison (Top 30 Goalscorers)")
-    
+    st.markdown("### Premier League 2024-25: Goals vs Expected Goals Comparison ")
+    stat_choice = st.selectbox("Choose how many Goal Scorers (Sorted by Top):", [10,20,30,40,50,"All"])
     # Filter top 30 scorers
-    top_scorers = df.sort_values(by='goals', ascending=False).head(30)
-    
+    if stat_choice==int:
+        top_scorers = df.sort_values(by='goals', ascending=False).head(stat_choice)
+    elif stat_choice=="All":
+        top_scorers = df.sort_values(by='goals', ascending=False)
+    else:
+        top_scorers = df.sort_values(by='goals', ascending=False).head(25)
     fig = go.Figure()
     
     # Add scatter points
