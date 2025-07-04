@@ -136,16 +136,6 @@ with col1:
     </div>
     """, unsafe_allow_html=True)
 
-with col2:
-    # Team selection dropdown for analysis
-    selected_team = st.selectbox(
-        "🏆 Select team for analysis:",
-        options=table_data['team'].tolist(),
-        index=0
-    )
-    if st.button("Open Team Analysis", type="secondary"):
-        st.switch_page("pages/Team_Analysis.py")
-
 st.write("---")
 
 # Dashboard Cards Section
