@@ -45,7 +45,7 @@ if analysis_type == "Goals vs Expected Goals":
     elif stat_choice=="All":
         top_scorers = df.sort_values(by='goals', ascending=False)
     else:
-        top_scorers = df.sort_values(by='goals', ascending=False).head(25)
+        top_scorers = df.sort_values(by='goals', ascending=False).head(stat_choice)
     fig = go.Figure()
     
     # Add scatter points
