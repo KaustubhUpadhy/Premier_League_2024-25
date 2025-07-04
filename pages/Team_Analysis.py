@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from urllib.parse import parse_qs
+import plotly.express as px
 
 st.set_page_config(page_title="Team Analysis", layout="wide")
 
@@ -93,7 +94,7 @@ if "team" in df.columns:
     with col5:
         if "Venue" in attend_data.columns:
             team_attendance = attend_data["Attendance"].mean()
-            st.metric("Avg. Attendance", int(team_attendance))
+            st.metric("Avg. Attendance", f"{int(team_attendance):,}")
 
     st.write("---")
 
@@ -299,6 +300,128 @@ if "team" in df.columns:
                 )
 
                 st.plotly_chart(fig_receivers, use_container_width=True)
+    # Ternary Plots for Touch Distribution
+if not possession_data.empty:
+    st.write("---")
+    st.markdown("### 🎯 Touch Distribution by Position")
+    
+    # Load team possession stats
+    try:
+        team_possession_df = pd.read_csv("team_possession_stats.csv")
+        team_possession_data = team_possession_df[team_possession_df["team"] == selected_team].copy() if not team_possession_df.empty else pd.DataFrame()
+    except:
+        team_possession_data = pd.DataFrame()
+    
+    if not team_possession_data.empty:
+        # Position groups
+        defenders = ["DF","DF,MF","MF,DF","DF,FW"]
+        midfielders = ["MF","FW,MF","DF,MF","MF,DF","MF,FW"]
+        forwards = ["FW", "FW,MF", "MF,FW","FW,DF","DF,FW"]
+        
+        # Get team totals
+        team_totals = team_possession_data.iloc[0]
+        team_def = team_totals["deffensive_touches"]
+        team_mid = team_totals["middle_touches"]
+        team_att = team_totals["attacking_touches"]
+        team_total_touches = team_totals["touches"]
+        
+        col1, col2, col3 = st.columns(3)
+        
+        # Function to create ternary plot
+        def create_ternary_plot(position_group, group_name, color_palette):
+            filtered = possession_data[possession_data["position"].isin(position_group)].copy()
+            filtered = filtered[filtered["touches"] > 0]  # Avoid div-by-zero
+            
+            if filtered.empty:
+                return None
+                
+            # Normalize for ternary plot
+            filtered["def_pct"] = filtered["deffensive_touches"] / filtered["touches"]
+            filtered["mid_pct"] = filtered["middle_touches"] / filtered["touches"]
+            filtered["att_pct"] = filtered["attacking_touches"] / filtered["touches"]
+            
+            # Compute % contribution to team by each player
+            filtered["def_contrib_pct"] = (filtered["deffensive_touches"] / team_def * 100).round(2)
+            filtered["mid_contrib_pct"] = (filtered["middle_touches"] / team_mid * 100).round(2)
+            filtered["att_contrib_pct"] = (filtered["attacking_touches"] / team_att * 100).round(2)
+            filtered["touch_contrib_pct"] = (filtered["touches"] / team_total_touches * 100).round(2)
+            
+            # Custom hover text
+            filtered["hover_text"] = (
+                filtered["player"] + "<br><br>" +
+                "Defensive Touches: " + filtered["deffensive_touches"].astype(str) + "<br>" +
+                "→ " + filtered["def_contrib_pct"].astype(str) + "% of team total<br>" +
+                "Middle Touches: " + filtered["middle_touches"].astype(str) + "<br>" +
+                "→ " + filtered["mid_contrib_pct"].astype(str) + "% of team total<br>" +
+                "Attacking Touches: " + filtered["attacking_touches"].astype(str) + "<br>" +
+                "→ " + filtered["att_contrib_pct"].astype(str) + "% of team total<br><br>" +
+                "Total Touches: " + filtered["touches"].astype(str) + "<br>" +
+                "→ " + filtered["touch_contrib_pct"].astype(str) + "% of team total"
+            )
+            
+            # Create ternary plot
+            fig = px.scatter_ternary(
+                filtered,
+                a="def_pct",
+                b="mid_pct", 
+                c="att_pct",
+                size="touches",
+                color_discrete_sequence=[color_palette],
+                hover_name="player",
+                custom_data=["hover_text"]
+            )
+            
+            fig.update_traces(
+                hovertemplate="%{customdata[0]}<extra></extra>"
+            )
+            
+            fig.update_layout(
+                title=f"{group_name}",
+                ternary=dict(
+                    sum=1,
+                    aaxis_title="Defensive %",
+                    baxis_title="Middle %", 
+                    caxis_title="Attacking %"
+                ),
+                height=400,
+                plot_bgcolor='#0e1a26',
+                paper_bgcolor='#0e1a26',
+                font_color='white'
+            )
+            
+            return fig
+        
+        # Create plots for each position group
+        with col1:
+            st.markdown("#### Defenders")
+            defenders_fig = create_ternary_plot(defenders,"Defenders","#4ac8ff")
+            if defenders_fig:
+                st.plotly_chart(defenders_fig, use_container_width=True)
+            else:
+                st.info("No defender data available")
+        
+        with col2:
+            st.markdown("#### Midfielders")
+            midfielders_fig = create_ternary_plot(midfielders,"Midfielders", "#00ff66")
+            if midfielders_fig:
+                st.plotly_chart(midfielders_fig, use_container_width=True)
+            else:
+                st.info("No midfielder data available")
+        
+        with col3:
+            st.markdown("#### Forwards")
+            forwards_fig = create_ternary_plot(forwards,"Forwards", "#ff2d96")
+            if forwards_fig:
+                st.plotly_chart(forwards_fig, use_container_width=True)
+            else:
+                st.info("No forward data available")
+        st.markdown("#### Ternary Triangle Corner Reference:")
+        st.markdown("- **TOP CORNER**: 100% Defensive touches - pure defensive players")
+        st.markdown("- **BOTTOM-LEFT CORNER**: 100% Middle third touches - pure transitional players  ")
+        st.markdown("- **BOTTOM-RIGHT CORNER**: 100% Attacking touches - pure attacking players")
+
+    else:
+        st.warning("Team possession stats not available for ternary plots")
 
     # Team Contribution Analysis
     if not team_stats.empty:
