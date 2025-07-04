@@ -165,6 +165,30 @@ with col1:
         flex-direction: column;
         justify-content: space-between;
     '>
+        <img src='data:image/png;base64,{img3}' style='width:100%; height:250px; object-fit:cover;'/>
+        <div style='padding:10px; background-color:#f8f8f8; text-align:center;'>
+            <h4>Team Analysis</h4>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
+    st.page_link("pages/Team_Analysis.py", label="🏆 Open Dashboard", icon="➡️")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with col2:
+    st.markdown(f"""
+    <div style='
+        border-radius:12px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.15);
+        overflow:hidden;
+        transition:0.3s ease;
+        width:100%;
+        height:330px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    '>
         <img src='data:image/png;base64,{img1}' style='width:100%; height:250px; object-fit:cover;'/>
         <div style='padding:10px; background-color:#f8f8f8; text-align:center;'>
             <h4>Ball Progression</h4>
@@ -176,7 +200,7 @@ with col1:
     st.page_link("pages/Ball_Progression.py", label="⚽ Open Dashboard", icon="➡️")
     st.markdown("</div>", unsafe_allow_html=True)
 
-with col2:
+with col3:
     st.markdown(f"""
     <div style='
         border-radius:12px;
@@ -200,29 +224,6 @@ with col2:
     st.page_link("pages/Goalscoring_Analysis.py", label="🎯 Open Dashboard", icon="➡️")
     st.markdown("</div>", unsafe_allow_html=True)
 
-with col3:
-    st.markdown(f"""
-    <div style='
-        border-radius:12px;
-        box-shadow:0 4px 12px rgba(0,0,0,0.15);
-        overflow:hidden;
-        transition:0.3s ease;
-        width:100%;
-        height:330px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    '>
-        <img src='data:image/png;base64,{img3}' style='width:100%; height:250px; object-fit:cover;'/>
-        <div style='padding:10px; background-color:#f8f8f8; text-align:center;'>
-            <h4>Team Analysis</h4>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
-    st.page_link("pages/Team_Analysis.py", label="🏆 Open Dashboard", icon="➡️")
-    st.markdown("</div>", unsafe_allow_html=True)
 
 # Second row
 st.write("")
