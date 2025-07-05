@@ -310,8 +310,7 @@ col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.markdown("""
     <div style='text-align: center; padding: 20px; background-color: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);'>
-        <h4 style='color: white; margin-bottom: 15px;'>📈 Data Source</h4>
-        <p style='color: white; margin-bottom: 15px;'>This analysis is powered by comprehensive Premier League 2024/25 season data</p>
+        <h4 style='color: blue; margin-bottom: 15px;'>📈 Data Source</h4>
         <a href='https://www.kaggle.com/datasets/flynn28/2025-premier-league-stats-matches-salaries' target='_blank' style='background-color: #20a5ba; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>
             🔗 View Dataset on Kaggle
         </a>
