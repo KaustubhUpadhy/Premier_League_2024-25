@@ -7,7 +7,7 @@ import numpy as np
 
 st.set_page_config(page_title="Ball Possession", layout="wide")
 
-st.markdown("<h1 style='text-align: center;'>🏀 Ball Possession Dashboard</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>⚽ Ball Possession Dashboard</h1>", unsafe_allow_html=True)
 
 # Load data
 @st.cache_data
@@ -151,12 +151,6 @@ This scatter plot reveals the relationship between **carry frequency** and **pro
 - **Progressive Specialists**: Fewer total carries but high progressive rate - quality over quantity approach
 - **Trend Line**: Shows the general relationship between volume and progression across the league
 
-**Key Insights**:
-- **Defenders (Blue)**: Often cluster in lower-left - fewer carries, more conservative
-- **Midfielders (Green)**: Spread across the spectrum - varying tactical roles
-- **Forwards (Pink)**: Often higher progression rate - direct play orientation
-
-**Tactical Application**: Identify players who combine high carry volume with progressive impact for key playmaking roles.
 """)
 
 st.write("---")
@@ -237,12 +231,6 @@ This chart reveals **who covers the most ground** with the ball and their carryi
 - **Efficiency Metrics**: Distance per carry shows whether players take long runs or frequent short carries
 - **Position Patterns**: Different positions typically show distinct distance coverage patterns
 
-**Key Patterns**:
-- **High Distance + Many Carries**: Workhorses who are constantly involved in ball progression
-- **High Distance + Few Carries**: Explosive players who cover significant ground in fewer touches
-- **Moderate Distance + Many Carries**: Possession-focused players with frequent but shorter carries
-
-**Strategic Value**: Players with high total distance often serve as key transitional figures, linking defense and attack through ball carrying.
 """)
 
 # Summary section

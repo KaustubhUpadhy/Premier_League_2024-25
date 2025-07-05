@@ -91,10 +91,9 @@ st.plotly_chart(fig1, use_container_width=True)
 # Analysis for Visualization 1
 st.markdown("""
 ### 🔍 Analysis: Take-On Success Rates
-This chart reveals the **efficiency** of the most active dribblers in the Premier League. Key insights:
+This chart reveals the **efficiency** of the most active dribblers in the Premier League.
 
-- **Elite Dribblers**: Players with success rates above 60% demonstrate exceptional close control and decision-making
-- **Volume vs Quality**: Some players attempt many take-ons but have lower success rates, indicating a more direct, risk-taking approach
+- **Elite Dribblers**: Players with success rates above 50% demonstrate exceptional close control and decision-making
 - **Position Impact**: Wingers and attacking midfielders typically appear here, as they're expected to beat defenders in wide areas
 - **Tactical Value**: High success rates suggest players who can consistently progress the ball and create numerical advantages
 
@@ -208,10 +207,8 @@ This bubble chart reveals the relationship between **dribbling frequency**, **su
 
 - **Top-Right Quadrant**: Elite dribblers who attempt many take-ons AND succeed frequently - these are game-changers
 - **Bubble Size**: Represents successful take-ons completed - larger bubbles show higher absolute contribution
-- **Position Clustering**: Forwards (pink) often cluster in high-volume areas, while defenders (blue) are more conservative
-- **Sweet Spot**: Players with 40+ attempts and 55%+ success rate represent the optimal balance of risk and reward
+- **Sweet Spot**: Players with 50+ attempts and 45%+ success rate represent the optimal balance of risk and reward
 
-**Tactical Insight**: The ideal attacking player appears in the top-right with a large bubble - high volume, high efficiency, high output.
 """)
 
 st.write("---")
@@ -342,12 +339,8 @@ This mirror chart shows the **trade-off** between attacking success and possessi
 
 - **Right Side (Green)**: Success rate - how often players successfully complete take-ons
 - **Left Side (Red)**: Dispossession rate - how often players lose the ball when attempting to dribble
-- **Balanced Players**: Those with long green bars and short red bars offer the best risk-reward ratio
-- **High-Risk Players**: Long red bars indicate players who frequently lose possession, which can disrupt team flow
 
 **Key Insight**: The most valuable attackers maximize their green bar while minimizing their red bar. Players heavily skewed to the right are safe but effective, while those with prominent red bars are exciting but potentially costly.
-
-**Coaching Application**: Use this to identify which players should attempt more take-ons (efficient players) vs those who should be more selective (high-risk players).
 """)
 
 st.write("---")
@@ -540,17 +533,11 @@ This quadrant analysis reveals the **dual nature** of ball-carrying effectivenes
 - **⬇➡ Bottom-Right (SHOWY)**: Skilled dribblers whose take-ons don't translate to meaningful progression
 - **⬇⬅ Bottom-Left (LIMITED)**: Players struggling in both aspects - may need tactical or technical development
 
-**Key Insights**: 
-- **Elite quadrant** players are game-changers who can break lines through skill AND purpose
-- **Tactical** players excel through positioning and decision-making rather than individual skill
-- **Reference lines** help identify where players stand relative to league averages
-
-**Coaching Application**: Use this to understand whether a player's dribbling serves a tactical purpose or is merely decorative.
 """)
 
 # Summary section
 st.write("---")
-st.markdown("## 📈 Dashboard Summary")
+st.markdown("## 📈 Summary")
 
 col1, col2, col3, col4 = st.columns(4)
 

@@ -298,5 +298,5 @@ with col6:
     """, unsafe_allow_html=True)
     
     st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
-    st.page_link("pages/Ball_Possession.py", label="🏀 Open Dashboard", icon="➡️")
+    st.page_link("pages/Ball_Possession.py", label="⚽ Open Dashboard", icon="➡️")
     st.markdown("</div>", unsafe_allow_html=True)

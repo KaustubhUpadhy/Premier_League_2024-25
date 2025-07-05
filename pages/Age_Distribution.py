@@ -89,9 +89,7 @@ This heatmap reveals how different teams distribute playing time across age grou
 - **Young Teams**: Teams with darker green in recent birth years (1998-2002) prioritize youth development
 - **Experienced Teams**: Concentration in earlier birth years (1988-1995) indicates reliance on veteran players
 - **Balanced Squads**: Even distribution across multiple birth years shows good age balance and squad depth
-- **Strategic Insights**: Teams heavily investing in specific age brackets reveal their long-term planning approach
 
-**Key Patterns**: Look for teams with concentrated dark areas - these indicate heavy reliance on specific age groups, which could signal either a successful generation or potential future squad planning challenges.
 """)
 
 st.write("---")
@@ -170,7 +168,6 @@ This heatmap shows how playing time is distributed across positions and age grou
 - **Midfielder Distribution**: Usually shows the broadest age spread, as the position requires both energy (young) and wisdom (experienced)
 - **Forward Evolution**: May show shifts between age groups indicating tactical evolution in the striker role
 
-**Tactical Insights**: Dark green concentrations reveal where the Premier League's positional demands align with player development curves. Gaps in certain position-age combinations might indicate market opportunities or developmental challenges.
 """)
 
 # Summary section
