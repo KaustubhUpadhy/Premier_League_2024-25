@@ -300,3 +300,21 @@ with col6:
     st.markdown("<div style='text-align:center; padding-top:10px;'>", unsafe_allow_html=True)
     st.page_link("pages/Ball_Possession.py", label="⚽ Open Dashboard", icon="➡️")
     st.markdown("</div>", unsafe_allow_html=True)
+
+    # Dataset Attribution Section
+st.write("---")
+st.markdown("## 📊 Dataset Information")
+
+col1, col2, col3 = st.columns([1, 2, 1])
+
+with col2:
+    st.markdown("""
+    <div style='text-align: center; padding: 20px; background-color: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);'>
+        <h4 style='color: white; margin-bottom: 15px;'>📈 Data Source</h4>
+        <p style='color: white; margin-bottom: 15px;'>This analysis is powered by comprehensive Premier League 2024/25 season data</p>
+        <a href='https://www.kaggle.com/datasets/flynn28/2025-premier-league-stats-matches-salaries' target='_blank' style='background-color: #20a5ba; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>
+            🔗 View Dataset on Kaggle
+        </a>
+        <p style='color: #ccc; font-size: 12px; margin-top: 15px;'>Dataset includes player stats, team stats, possession data, and match fixtures</p>
+    </div>
+    """, unsafe_allow_html=True)
