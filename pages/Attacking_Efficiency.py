@@ -568,4 +568,4 @@ with col4:
 # Back to homepage button
 st.write("---")
 if st.button("🏠 Back to Homepage"):
-    st.switch_page("Home.py")
+    st.switch_page("app.py")
