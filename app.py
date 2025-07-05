@@ -303,8 +303,6 @@ with col6:
 
     # Dataset Attribution Section
 st.write("---")
-st.markdown("## 📊 Dataset Information")
-
 col1, col2, col3 = st.columns([1, 2, 1])
 
 with col2:
