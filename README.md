@@ -24,4 +24,4 @@ A comprehensive data analytics dashboard for the Premier League 2024/25 season, 
 - **Frontend**: Streamlit
 - **Visualization**: Plotly (Interactive charts and graphs)
 - **Data Processing**: Pandas, NumPy
-- **Data Source**: Kaggle Premier League Dataset
+- **Data Source**: Kaggle Premier League Dataset: https://www.kaggle.com/datasets/flynn28/2025-premier-league-stats-matches-salaries
