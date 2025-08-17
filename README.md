@@ -1,7 +1,7 @@
 # Premier League 2024/25 Analytics Dashboard
 
 A comprehensive data analytics dashboard for the Premier League 2024/25 season, built with Streamlit and Plotly. This interactive web application provides in-depth analysis of team and player performance across multiple dimensions.
-
+https://premierleague-analysis.up.railway.app/
 ## Features
 
 ### **Interactive Dashboards**
