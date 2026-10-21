@@ -122,7 +122,20 @@ st.dataframe(
         ),
     }
 )
+# Quick league summary
+st.markdown("### ⚽ League Summary")
 
+summary_col1, summary_col2, summary_col3 = st.columns(3)
+
+with summary_col1:
+    st.metric("League Leader", display_data.iloc[0]["Team"])
+
+with summary_col2:
+    st.metric("Leader Points", int(display_data.iloc[0]["Pts"]))
+
+with summary_col3:
+    st.metric("Teams", len(display_data))
+    
 # Add legend and team selection
 col1, col2 = st.columns([2, 1])
 
